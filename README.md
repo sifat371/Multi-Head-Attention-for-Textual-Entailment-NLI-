@@ -2,8 +2,6 @@
 goal is to build a classifier that can determine the relationship between two sentences (a "premise" and a "hypothesis").
 
 
-# Multi-Head Attention for Textual Entailment (SNLI) — README
-
 ## Overview
 
 This project demonstrates basic data loading, inspection, and preprocessing for the Stanford Natural Language Inference (SNLI) dataset using PyTorch, HuggingFace Datasets, and Transformers. The workflow prepares the SNLI data for downstream natural language inference tasks, such as training models with multi-head attention.
@@ -12,7 +10,7 @@ This project demonstrates basic data loading, inspection, and preprocessing for 
 
 ## Steps Completed
 
-### 1. Environment Setup and Imports
+## 1. Environment Setup and Imports
 
 - Checked Python and PyTorch versions, and CUDA availability.
 - Imported essential libraries:
@@ -21,7 +19,7 @@ This project demonstrates basic data loading, inspection, and preprocessing for 
   - `transformers` for tokenization and data collation
   - `torch.utils.data` for data loading
 
-### 2. Loading and Inspecting SNLI Data
+## 2. Loading and Inspecting SNLI Data
 
 - Loaded the SNLI dataset using `load_dataset("snli")`.
 - Printed available splits (`train`, `validation`, `test`) and their sizes.
@@ -30,7 +28,7 @@ This project demonstrates basic data loading, inspection, and preprocessing for 
   - Hypothesis
   - Label (0=entailment, 1=neutral, 2=contradiction, -1=missing)
 
-### 3. Filtering and Label Distribution Analysis
+## 3. Filtering and Label Distribution Analysis
 
 - Filtered out examples with missing or invalid labels (`label is not None and label >= 0`).
 - Used Python's `Counter` to count label distribution in each split.
@@ -38,14 +36,34 @@ This project demonstrates basic data loading, inspection, and preprocessing for 
 
 ---
 
-## Next Steps (Suggestions)
+## Step 4: Tokenization of SNLI Dataset
 
-- Tokenize the premise and hypothesis sentences using a transformer tokenizer (e.g., BERT, RoBERTa).
-- Prepare PyTorch DataLoaders for batching and training.
-- Implement and train a multi-head attention model for textual entailment.
-- Evaluate model performance on validation and test splits.
+In this step, the SNLI dataset was preprocessed for transformer-based models using the following procedure:
 
----
+- **Tokenizer Initialization:**  
+  Loaded the BERT tokenizer (`bert-base-uncased`) from HuggingFace Transformers with fast tokenization enabled.
+
+- **Tokenizer Details Printed:**  
+  Displayed the tokenizer class name, vocabulary size, and pad token information for reference.
+
+- **Maximum Sequence Length Set:**  
+  Chose a maximum token length of 64, suitable for the short sentences in SNLI.
+
+- **Custom Tokenization Function:**  
+  Defined a function to tokenize both the premise and hypothesis for each example, producing:
+  - `premise_input_ids`
+  - `premise_attention_mask`
+  - `hypo_input_ids`
+  - `hypo_attention_mask`
+
+- **Batch Tokenization Applied:**  
+  Used the `.map()` method to apply the tokenization function to all splits (`train`, `validation`, `test`) in the dataset, removing the original text columns to save space.
+
+- **Result Verification:**  
+  Printed the structure of the tokenized dataset and confirmed the new columns.
+
+**Outcome:**  
+The SNLI dataset is now fully tokenized and ready for use in transformer models, with each example containing token IDs and attention masks for both premise and hypothesis sentences.
 
 ## Requirements
 
